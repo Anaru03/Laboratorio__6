@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -49,17 +51,20 @@ class Login : ComponentActivity() {
     }
 }
 
-/**
+
 sealed class ScreenOption(val title: String){
     object LoginScreenGaleria : ScreenOption("Login")
 }
-*/
+
 
 
 
 @Composable
 fun MainLogin() {
     var text by remember { mutableStateOf("") }
+    val screenOptions = listOf(
+        ScreenOption.LoginScreenGaleria
+    )
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -82,7 +87,22 @@ fun MainLogin() {
                     .padding(1.dp)
             )
         }
+        items(screenOptions) { screenOption ->
+            Button(
+                onClick = {
+                    //currentScreen = screenOption
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = screenOption.title,
+                    color = Color.White
+                )
+            }
+        }
+
     }
+
 }
 
 
@@ -111,7 +131,6 @@ fun Cajatext() {
 @Composable
 fun LoginPreview() {
     Laboratorio__6Theme {
-
 
     }
 }
