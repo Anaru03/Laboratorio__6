@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -107,21 +111,41 @@ fun MainLogin() {
 
 
 
-/**
+//Nombre del usuario
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Cajatext() {
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(TextFieldValue("")) }
 
     TextField(
-        modifier = Modifier.padding(16.dp),
         value = text,
-        onValueChange = { text = it },
-        label = { Text("Usuario") },
+        onValueChange = {
+            text = it
+        },
+        label = { Text(text = "Nombre de usuario") },
         textStyle = TextStyle(color = Color.Black),
     )
 }
-*/
+
+//Contraseña
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun contraUser(){
+    var contra by remember { mutableStateOf(TextFieldValue("")) }
+    TextField(
+        value = contra,
+        onValueChange = {
+            contra = it
+        },
+        label = { Text(text = "Contraseña") },
+        placeholder = { Text(text = "Inserte la contraseña")
+        },
+        textStyle = TextStyle(color = Color.Black),
+        visualTransformation = PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+    )
+}
+
 
 
 
