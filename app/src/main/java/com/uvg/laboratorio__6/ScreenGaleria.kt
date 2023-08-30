@@ -40,6 +40,6 @@ fun Galeria(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GaleriaPreview() {
     Laboratorio__6Theme {
-        MainLogin()
+
     }
 }
