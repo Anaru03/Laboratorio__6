@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CutCornerShape
+import com.uvg.laboratorio__6.ui.theme.morado1
+import com.uvg.laboratorio__6.ui.theme.morado2
+import com.uvg.laboratorio__6.ui.theme.morado3
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -39,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.*
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -104,7 +107,7 @@ fun MainLogin(onLoginClick: (String, String) -> Unit) {
                     .fillMaxWidth()
                     .padding(4.dp)
             )
-            Spacer(modifier = Modifier.height(100.dp))
+            Spacer(modifier = Modifier.height(70.dp))
         }
         item {
             Box(
@@ -129,7 +132,8 @@ fun MainLogin(onLoginClick: (String, String) -> Unit) {
                         keyboardOptions = KeyboardOptions.Default.copy(
                             imeAction = ImeAction.Next
                         ),
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        modifier = Modifier
+                            .padding(bottom = 16.dp)
                     )
                     TextField(
                         value = password,
@@ -141,7 +145,7 @@ fun MainLogin(onLoginClick: (String, String) -> Unit) {
                             imeAction = ImeAction.Done,
                             keyboardType = KeyboardType.Password
                         ),
-                        visualTransformation = PasswordVisualTransformation()
+                        visualTransformation = PasswordVisualTransformation(),
                     )
                 }
             }
