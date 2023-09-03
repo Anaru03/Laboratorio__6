@@ -143,6 +143,16 @@ fun GalleryScreen() {
             }
         }
 
+        Image(
+            painter = painterResource(id = galleryImages[selectedArtIndex].idImage),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(400.dp)
+                .clip(shape = MaterialTheme.shapes.medium)
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(
@@ -157,7 +167,8 @@ fun GalleryScreen() {
                     if (selectedArtIndex > 0) {
                         selectedArtIndex--
                     }
-                }
+                },
+                enabled = selectedArtIndex > 0
             ) {
                 Text(text = "Anterior")
             }
