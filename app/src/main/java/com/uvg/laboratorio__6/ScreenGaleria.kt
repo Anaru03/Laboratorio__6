@@ -3,6 +3,7 @@ package com.uvg.laboratorio__6
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,7 +23,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -32,6 +32,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
 import com.uvg.laboratorio__6.ui.theme.Laboratorio__6Theme
 
 // Referencias de https://github.com/android/compose-samples/tree/main
@@ -52,7 +54,7 @@ class ScreenGaleria : ComponentActivity() {
     }
 }
 
-data class ArtSpace(val title1: String, val subtitle: String,  val author: String, val year: String, val imageResId: Int)
+data class ArtSpace(val name: String, val author: String, val year: String, @DrawableRes val idImage: Int)
 
 
 
@@ -62,7 +64,7 @@ fun ImageCard(image: Painter, title: String, subtitle: String, author: String, y
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { },
+            //.clickable {},
     ) {
         Column(
             modifier = Modifier
@@ -70,7 +72,7 @@ fun ImageCard(image: Painter, title: String, subtitle: String, author: String, y
                 .padding(16.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.art1),
+                painter = image,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -86,30 +88,104 @@ fun ImageCard(image: Painter, title: String, subtitle: String, author: String, y
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GalleryScreen() {
-    var searchText by remember { mutableStateOf(TextFieldValue()) }
+    var selectedArtIndex by remember { mutableStateOf(0) }
     val galleryImages = listOf(
-        ArtSpace("art1", "Image 1", "Artist 1", "2022", R.drawable.art1),
-        ArtSpace("art1", "Image 2", "Artist 2", "2021", R.drawable.art2),
-        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art3),
-        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art4),
-        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art5), //problemas con la imagen
-        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art1), //problemas con la imagen
-        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art7),
-        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art8),
-        ArtSpace("art9", "Image 3", "Artist 3", "2020", R.drawable.art9),
-        ArtSpace("art10", "Image 3", "Artist 3", "2020", R.drawable.art10),
-
+        ArtSpace("art1", "Ruth", "2020", R.drawable.art1),
+        ArtSpace("art1", "Image 2", "Artist 2", R.drawable.art2),
+        ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art3),
+        ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art4),
+        ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art5),
+        ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art6),
+        ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art7),
+        ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art8),
+        ArtSpace("art9", "Image 3", "Artist 3", R.drawable.art9),
+        ArtSpace("art10", "Image 3", "Artist 3", R.drawable.art10),
     )
-    var currentImageIndex by remember { mutableStateOf(0) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
+        TopAppBar(
+            title = {
+                Text(
+                    text = "Art Space App",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            actions = {
+                IconButton(
+                    onClick = {
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.cerrar_sesion),
+                        contentDescription = "Logout"
+                    )
+                }
+            }
+        )
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+
+        ) {
+            items(galleryImages) { artwork ->
+                ArtworkItem(
+                    artwork = artwork,
+                    isSelected = galleryImages.indexOf(artwork) == selectedArtIndex,
+                    onClick = { selectedArtIndex = galleryImages.indexOf(artwork) }
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+
+@Composable
+fun ArtworkItem(
+    artwork: ArtSpace,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { onClick() },
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = artwork.idImage),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(150.dp)
+                    .clip(shape = MaterialTheme.shapes.medium)
+                    //.background(Color.Gray)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = artwork.name,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+            Text(text = artwork.author, fontSize = 16.sp)
+            Text(text = artwork.year, fontSize = 16.sp)
+        }
     }
 }
 
