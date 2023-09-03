@@ -59,12 +59,11 @@ data class ArtSpace(val name: String, val author: String, val year: String, @Dra
 
 
 @Composable
-fun ImageCard(image: Painter, title: String, subtitle: String, author: String, year: String) {
+fun ImageCard(image: Painter, title: String, author: String, year: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            //.clickable {},
     ) {
         Column(
             modifier = Modifier
@@ -81,9 +80,8 @@ fun ImageCard(image: Painter, title: String, subtitle: String, author: String, y
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            Text(text = subtitle, fontWeight = FontWeight.Bold, fontSize = 10.sp)
-            Text(text = "Artista: $author")
-            Text(text = "Año: $year")
+            Text(text = "Artista: $author", fontSize = 16.sp)
+            Text(text = "Año: $year", fontSize = 12.sp)
         }
     }
 }
@@ -93,7 +91,7 @@ fun ImageCard(image: Painter, title: String, subtitle: String, author: String, y
 fun GalleryScreen() {
     var selectedArtIndex by remember { mutableStateOf(0) }
     val galleryImages = listOf(
-        ArtSpace("art1", "Ruth", "2020", R.drawable.art2),
+        ArtSpace("art1", "Ruth", "2020", R.drawable.art1),
         ArtSpace("art1", "Image 2", "Artist 2", R.drawable.art2),
         ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art3),
         ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art4),
@@ -131,17 +129,6 @@ fun GalleryScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
-            items(galleryImages) { artwork ->
-                ArtworkItem(
-                    artwork = artwork,
-                    isSelected = galleryImages.indexOf(artwork) == selectedArtIndex,
-                    onClick = { selectedArtIndex = galleryImages.indexOf(artwork) }
-                )
-            }
-        }
 
         Image(
             painter = painterResource(id = galleryImages[selectedArtIndex].idImage),
@@ -149,8 +136,34 @@ fun GalleryScreen() {
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(400.dp)
-                .clip(shape = MaterialTheme.shapes.medium)
+                .height(550.dp)
+                .padding(horizontal = 10.dp)
+                .clip(shape = MaterialTheme.shapes.large)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        val selectedArtwork = galleryImages[selectedArtIndex]
+        Text(
+            text = selectedArtwork.name,
+            textAlign = TextAlign.Center,
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 180.dp)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Artista: ${selectedArtwork.author}",
+            fontSize = 16.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(start = 160.dp)
+        )
+        Text(
+            text = "Año: ${selectedArtwork.year}",
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(start = 177.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -198,7 +211,6 @@ fun ArtworkItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            //.clickable { onClick() },
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -210,27 +222,27 @@ fun ArtworkItem(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp)
+                    .height(100.dp)
                     .clip(shape = MaterialTheme.shapes.medium)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = artwork.name,
                 textAlign = TextAlign.Center,
-                fontSize = 20.sp,
+                fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Artist: ${artwork.author}",
-                fontSize = 16.sp,
+                text = "Artista: ${artwork.author}",
+                fontSize = 14.sp,
                 textAlign = TextAlign.Center,
             )
             Text(
-                text = "Year: ${artwork.year}",
-                fontSize = 16.sp,
+                text = "Año: ${artwork.year}",
+                fontSize = 12.sp,
                 textAlign = TextAlign.Center,
             )
         }
