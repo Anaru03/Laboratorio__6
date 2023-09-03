@@ -45,26 +45,24 @@ class ScreenGaleria : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    GalleryScreen()
                 }
             }
         }
     }
 }
 
-data class ArtSpace(val title1: String, val subtitle: String, val imageResId: String, val author: String, val year: Int)
-
-
+data class ArtSpace(val title1: String, val subtitle: String,  val author: String, val year: String, val imageResId: Int)
 
 
 
 @Composable
-fun ImageCard(image: Painter, title: String, author: String, year: String) {
+fun ImageCard(image: Painter, title: String, subtitle: String, author: String, year: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { /* Implement image click action */ },
+            .clickable { },
     ) {
         Column(
             modifier = Modifier
@@ -81,9 +79,37 @@ fun ImageCard(image: Painter, title: String, author: String, year: String) {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(text = subtitle, fontWeight = FontWeight.Bold, fontSize = 10.sp)
             Text(text = "Artista: $author")
             Text(text = "Año: $year")
         }
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun GalleryScreen() {
+    var searchText by remember { mutableStateOf(TextFieldValue()) }
+    val galleryImages = listOf(
+        ArtSpace("art1", "Image 1", "Artist 1", "2022", R.drawable.art1),
+        ArtSpace("art1", "Image 2", "Artist 2", "2021", R.drawable.art2),
+        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art3),
+        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art4),
+        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art5), //problemas con la imagen
+        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art1), //problemas con la imagen
+        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art7),
+        ArtSpace("art1", "Image 3", "Artist 3", "2020", R.drawable.art8),
+        ArtSpace("art9", "Image 3", "Artist 3", "2020", R.drawable.art9),
+        ArtSpace("art10", "Image 3", "Artist 3", "2020", R.drawable.art10),
+
+    )
+    var currentImageIndex by remember { mutableStateOf(0) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
     }
 }
 
@@ -93,6 +119,6 @@ fun ImageCard(image: Painter, title: String, author: String, year: String) {
 @Composable
 fun GaleriaPreview() {
     Laboratorio__6Theme {
-
+        GalleryScreen()
     }
 }
