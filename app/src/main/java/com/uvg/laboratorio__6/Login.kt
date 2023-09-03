@@ -1,6 +1,8 @@
 package com.uvg.laboratorio__6
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -46,10 +48,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import com.uvg.laboratorio__6.ui.theme.Laboratorio__6Theme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,10 +77,12 @@ class Login : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainLogin(onLoginClick: (String, String) -> Unit) {
+fun MainLogin(
+    onLoginClick: (String, String) -> Unit,
+) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
+    val context = LocalContext.current
 
 
     LazyColumn(
@@ -152,7 +160,19 @@ fun MainLogin(onLoginClick: (String, String) -> Unit) {
         }
         item {
             Button(
-                onClick = { onLoginClick(username, password) },
+                onClick = {
+                    if (username.isNotEmpty() && password.isNotEmpty() && IDUser(username, password)) {
+                        onLoginClick(username, password)
+                    } else {
+                        if (username.isEmpty()) {
+                            Toast.makeText(context, "Por favor, ingresa un nombre de usuario", Toast.LENGTH_SHORT).show()
+                        } else if (password.isEmpty()) {
+                            Toast.makeText(context, "Por favor, ingresa una contraseña", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                },
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(text = "Login")
@@ -160,6 +180,15 @@ fun MainLogin(onLoginClick: (String, String) -> Unit) {
         }
     }
 }
+
+
+fun IDUser(username: String, password: String): Boolean {
+    val IDCorrect = mapOf(
+        "anaru" to "holamundo",
+    )
+    return IDCorrect[username] == password
+}
+
 
 
 @Preview(showBackground = true)
