@@ -130,7 +130,6 @@ fun GalleryScreen() {
             },
         )
 
-
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(
@@ -139,9 +138,35 @@ fun GalleryScreen() {
             items(galleryImages) { artwork ->
                 ArtworkItem(
                     artwork = artwork,
-                    isSelected = galleryImages.indexOf(artwork) == selectedArtIndex,
-                    onClick = { selectedArtIndex = galleryImages.indexOf(artwork) }
+                    isSelected = galleryImages.indexOf(artwork) == selectedArtIndex
                 )
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(
+                onClick = {
+                    selectedArtIndex = (selectedArtIndex - 1 + galleryImages.size) % galleryImages.size
+                },
+                enabled = selectedArtIndex > 0
+            ) {
+                Text(text = "Anterior")
+            }
+
+            Button(
+                onClick = {
+                    selectedArtIndex = (selectedArtIndex + 1) % galleryImages.size
+                },
+                enabled = selectedArtIndex < galleryImages.size - 1
+            ) {
+                Text(text = "Siguiente")
             }
         }
     }
@@ -151,13 +176,13 @@ fun GalleryScreen() {
 fun ArtworkItem(
     artwork: ArtSpace,
     isSelected: Boolean,
-    onClick: () -> Unit
+    //onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onClick() },
+            //.clickable { onClick() },
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -180,6 +205,8 @@ fun ArtworkItem(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
+            Spacer(modifier = Modifier.height(8.dp))
+
             Text(
                 text = "Artist: ${artwork.author}",
                 fontSize = 16.sp,
