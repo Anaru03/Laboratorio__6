@@ -104,13 +104,37 @@ fun GalleryScreen() {
         ArtSpace("art9", "Image 3", "Artist 3", R.drawable.art9),
         ArtSpace("art10", "Image 3", "Artist 3", R.drawable.art10),
     )
-    Box(
+    Column(
         modifier = Modifier.fillMaxSize()
+
     ) {
+        TopAppBar(
+            title = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.cerrar_sesion2),
+                        contentDescription = null,
+                        modifier = Modifier.size(40.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Art Space App",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
+                }
+            },
+        )
+
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 56.dp)
+            modifier = Modifier.fillMaxSize()
         ) {
             items(galleryImages) { artwork ->
                 ArtworkItem(
@@ -120,42 +144,8 @@ fun GalleryScreen() {
                 )
             }
         }
-
-        // Agrega el título y el icono en la parte superior
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(Color.White)
-                .align(Alignment.TopCenter),
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.cerrar_sesion),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(40.dp)
-            )
-            Text(
-                text = "Art Space App",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp)
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }
-
 
 @Composable
 fun ArtworkItem(
@@ -169,42 +159,37 @@ fun ArtworkItem(
             .padding(8.dp)
             .clickable { onClick() },
     ) {
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Image(
-                    painter = painterResource(id = artwork.idImage),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(150.dp)
-                        .clip(shape = MaterialTheme.shapes.medium)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = artwork.name,
-                    textAlign = TextAlign.Center,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
-                Text(
-                    text = artwork.author,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center,
-                )
-                Text(
-                    text = artwork.year,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center,
-                )
-            }
+            Image(
+                painter = painterResource(id = artwork.idImage),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(400.dp)
+                    .clip(shape = MaterialTheme.shapes.medium)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = artwork.name,
+                textAlign = TextAlign.Center,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+            Text(
+                text = "Artist: ${artwork.author}",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                text = "Year: ${artwork.year}",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }
