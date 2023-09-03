@@ -93,7 +93,7 @@ fun ImageCard(image: Painter, title: String, subtitle: String, author: String, y
 fun GalleryScreen() {
     var selectedArtIndex by remember { mutableStateOf(0) }
     val galleryImages = listOf(
-        ArtSpace("art1", "Ruth", "2020", R.drawable.art1),
+        ArtSpace("art1", "Ruth", "2020", R.drawable.art2),
         ArtSpace("art1", "Image 2", "Artist 2", R.drawable.art2),
         ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art3),
         ArtSpace("art1", "Image 3", "Artist 3", R.drawable.art4),
@@ -104,45 +104,51 @@ fun GalleryScreen() {
         ArtSpace("art9", "Image 3", "Artist 3", R.drawable.art9),
         ArtSpace("art10", "Image 3", "Artist 3", R.drawable.art10),
     )
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        TopAppBar(
-            title = {
-                Text(
-                    text = "Art Space App",
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            },
-            actions = {
-                IconButton(
-                    onClick = {
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.cerrar_sesion),
-                        contentDescription = "Logout"
-                    )
-                }
-            }
-        )
         LazyColumn(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-
+                .fillMaxSize()
+                .padding(top = 56.dp)
         ) {
             items(galleryImages) { artwork ->
                 ArtworkItem(
                     artwork = artwork,
                     isSelected = galleryImages.indexOf(artwork) == selectedArtIndex,
                     onClick = { selectedArtIndex = galleryImages.indexOf(artwork) }
+                )
+            }
+        }
+
+        // Agrega el título y el icono en la parte superior
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(Color.White)
+                .align(Alignment.TopCenter),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.cerrar_sesion),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(40.dp)
+            )
+            Text(
+                text = "Art Space App",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp)
                 )
             }
         }
@@ -163,32 +169,45 @@ fun ArtworkItem(
             .padding(8.dp)
             .clickable { onClick() },
     ) {
-        Column(
+
+        Box(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            contentAlignment = Alignment.Center
         ) {
-            Image(
-                painter = painterResource(id = artwork.idImage),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(150.dp)
-                    .clip(shape = MaterialTheme.shapes.medium)
-                    //.background(Color.Gray)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = artwork.name,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
-            Text(text = artwork.author, fontSize = 16.sp)
-            Text(text = artwork.year, fontSize = 16.sp)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Image(
+                    painter = painterResource(id = artwork.idImage),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(150.dp)
+                        .clip(shape = MaterialTheme.shapes.medium)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = artwork.name,
+                    textAlign = TextAlign.Center,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = artwork.author,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    text = artwork.year,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
     }
 }
-
 
 
 @Preview(showBackground = true)
