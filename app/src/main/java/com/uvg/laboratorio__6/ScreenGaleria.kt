@@ -106,7 +106,6 @@ fun GalleryScreen() {
     )
     Column(
         modifier = Modifier.fillMaxSize()
-
     ) {
         TopAppBar(
             title = {
@@ -127,42 +126,47 @@ fun GalleryScreen() {
                         color = Color.White
                     )
                 }
-            },
+            }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.weight(1f)
         ) {
             items(galleryImages) { artwork ->
                 ArtworkItem(
                     artwork = artwork,
-                    isSelected = galleryImages.indexOf(artwork) == selectedArtIndex
+                    isSelected = galleryImages.indexOf(artwork) == selectedArtIndex,
+                    onClick = { selectedArtIndex = galleryImages.indexOf(artwork) }
                 )
             }
         }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
                 onClick = {
-                    selectedArtIndex = (selectedArtIndex - 1 + galleryImages.size) % galleryImages.size
-                },
-                enabled = selectedArtIndex > 0
+                    if (selectedArtIndex > 0) {
+                        selectedArtIndex--
+                    }
+                }
             ) {
                 Text(text = "Anterior")
             }
 
             Button(
                 onClick = {
-                    selectedArtIndex = (selectedArtIndex + 1) % galleryImages.size
+                    if (selectedArtIndex < galleryImages.size - 1) {
+                        selectedArtIndex++
+                    }
                 },
                 enabled = selectedArtIndex < galleryImages.size - 1
             ) {
@@ -172,11 +176,12 @@ fun GalleryScreen() {
     }
 }
 
+
 @Composable
 fun ArtworkItem(
     artwork: ArtSpace,
     isSelected: Boolean,
-    //onClick: () -> Unit
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
