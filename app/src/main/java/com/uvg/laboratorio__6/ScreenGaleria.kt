@@ -127,7 +127,7 @@ fun GalleryScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.tertiary)
+            .background(color = Color.Black)
     ) {
         TopAppBar(
             title = {

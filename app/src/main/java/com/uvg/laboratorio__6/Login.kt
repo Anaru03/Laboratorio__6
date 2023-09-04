@@ -79,7 +79,7 @@ fun MainLogin(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
-            .background(MaterialTheme.colorScheme.tertiary),
+            .background(color = Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
         contentPadding = PaddingValues(16.dp)
@@ -118,7 +118,7 @@ fun MainLogin(
                     .fillMaxWidth()
                     .padding(20.dp)
                     .shadow(15.dp)
-                    .background(MaterialTheme.colorScheme.tertiary)
+                    .background(color = Color.Black)
             ) {
                 Column(
                     modifier = Modifier
