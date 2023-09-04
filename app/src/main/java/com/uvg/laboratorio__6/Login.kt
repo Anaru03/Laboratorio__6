@@ -1,6 +1,6 @@
 package com.uvg.laboratorio__6
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -17,9 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import com.uvg.laboratorio__6.ui.theme.morado1
-import com.uvg.laboratorio__6.ui.theme.morado2
-import com.uvg.laboratorio__6.ui.theme.morado3
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -43,9 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.*
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.*
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -53,9 +48,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import com.uvg.laboratorio__6.ui.theme.Laboratorio__6Theme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,10 +78,12 @@ fun MainLogin(
 
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.tertiary),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
         contentPadding = PaddingValues(16.dp)
+
     ) {
         item {
             Image(
@@ -98,7 +92,7 @@ fun MainLogin(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(1.dp)
-                    .height(160.dp),
+                    .height(170.dp),
                 contentScale = ContentScale.FillWidth
             )
             Text(
@@ -106,7 +100,8 @@ fun MainLogin(
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
                 fontFamily = FontFamily.Serif,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
+                color = Color.White
             )
             Divider(
                 color = Color.Gray,
@@ -123,9 +118,7 @@ fun MainLogin(
                     .fillMaxWidth()
                     .padding(20.dp)
                     .shadow(15.dp)
-                    .background(
-                        color = Color.White
-                    )
+                    .background(MaterialTheme.colorScheme.tertiary)
             ) {
                 Column(
                     modifier = Modifier
@@ -163,6 +156,9 @@ fun MainLogin(
                 onClick = {
                     if (username.isNotEmpty() && password.isNotEmpty() && IDUser(username, password)) {
                         onLoginClick(username, password)
+                        val intent = Intent(context, ScreenGaleria::class.java)
+                        context.startActivity(intent)
+                        isLoggedOut = false
                     } else {
                         if (username.isEmpty()) {
                             Toast.makeText(context, "Por favor, ingresa un nombre de usuario", Toast.LENGTH_SHORT).show()
@@ -184,7 +180,7 @@ fun MainLogin(
 
 fun IDUser(username: String, password: String): Boolean {
     val IDCorrect = mapOf(
-        "anaru" to "holamundo",
+        "anaru" to "123456",
     )
     return IDCorrect[username] == password
 }
