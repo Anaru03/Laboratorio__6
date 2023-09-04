@@ -127,7 +127,11 @@ fun MainLogin(
                 ) {
                     TextField(
                         value = username,
-                        onValueChange = { username = it },
+                        onValueChange = { newValue ->
+                            if (newValue.length <= 10) {
+                                username = newValue
+                            }
+                        },
                         label = { Text("Usuario") },
                         maxLines = 1,
                         keyboardOptions = KeyboardOptions.Default.copy(
@@ -138,7 +142,11 @@ fun MainLogin(
                     )
                     TextField(
                         value = password,
-                        onValueChange = { password = it },
+                        onValueChange = { newValue ->
+                            if (newValue.length <= 8) {
+                                password = newValue
+                            }
+                        },
                         label = { Text("Contraseña") },
                         placeholder = { Text("Inserte la contraseña") },
                         maxLines = 1,
@@ -180,7 +188,9 @@ fun MainLogin(
 
 fun IDUser(username: String, password: String): Boolean {
     val IDCorrect = mapOf(
-        "anaru" to "123456",
+
+        //Ingresar esos datos exactos para iniciar sesión
+        "userprueba" to "12345678",
     )
     return IDCorrect[username] == password
 }

@@ -111,7 +111,7 @@ fun GalleryScreen() {
     var selectedArtIndex by remember { mutableStateOf(0) }
 
     val galleryImages = listOf(
-        ArtSpace("Diru", "Ruth de León", "2022", R.drawable.art1_1),
+        ArtSpace("Diru", "Josué Marroquín", "2022", R.drawable.art1_1),
         ArtSpace("Amanecer de las 6:00 am", "Ruth de León", "2023", R.drawable.art2),
         ArtSpace("Amor eléctrico", "Ruth de León", "2023", R.drawable.art3),
         ArtSpace("Dos gotas de amor", "Ruth de León", "2023", R.drawable.art4),
